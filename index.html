@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Тест на зависимость от гаджетов</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: auto; padding: 20px; }
+    h1 { text-align: center; }
+    button { padding: 10px 20px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Тест на зависимость от гаджетов</h1>
+  <form id="quizForm">
+    <p>1. Вы проверяете телефон сразу после пробуждения?<br>
+      <input type="radio" name="q1" value="3"> Часто<br>
+      <input type="radio" name="q1" value="2"> Иногда<br>
+      <input type="radio" name="q1" value="1"> Никогда<br>
+    </p>
+    <p>2. Вы чувствуете тревогу, если потеряли телефон?<br>
+      <input type="radio" name="q2" value="3"> Да<br>
+      <input type="radio" name="q2" value="2"> Немного<br>
+      <input type="radio" name="q2" value="1"> Нет<br>
+    </p>
+    <p>3. Вы пользуетесь гаджетом более 4 часов в день вне учёбы/работы?<br>
+      <input type="radio" name="q3" value="3"> Да<br>
+      <input type="radio" name="q3" value="2"> Иногда<br>
+      <input type="radio" name="q3" value="1"> Нет<br>
+    </p>
+    <button type="button" onclick="calculateResult()">Узнать результат</button>
+  </form>
+  <div id="result" style="margin-top: 20px; font-weight: bold;"></div>
+
+  <script>
+    function calculateResult() {
+      let total = 0;
+      const form = document.forms['quizForm'];
+      for (let i = 1; i <= 3; i++) {
+        const answer = form['q' + i].value;
+        if (!answer) {
+          alert('Пожалуйста, ответьте на все вопросы.');
+          return;
+        }
+        total += parseInt(answer);
+      }
+      const resultText = document.getElementById('result');
+      if (total <= 5) resultText.innerText = 'У вас низкий уровень зависимости.';
+      else if (total <= 7) resultText.innerText = 'У вас умеренная зависимость от гаджетов.';
+      else resultText.innerText = 'Высокая зависимость! Рекомендуется пересмотреть время использования устройств.';
+    }
+  </script>
+</body>
+</html>
