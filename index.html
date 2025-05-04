@@ -4,127 +4,192 @@
   <meta charset="UTF-8">
   <title>Тест на зависимость от гаджетов</title>
   <style>
-    body {
+    body, html {
       margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
-      color: #333;
-      padding: 40px;
+      background-color: #0f2027;
+      color: #fff;
+    }
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
     .container {
-      max-width: 700px;
-      margin: auto;
-      background: white;
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 50px 20px;
+      background: rgba(0, 0, 0, 0.6);
       border-radius: 10px;
-      padding: 30px 40px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      margin-top: 100px;
     }
     h1 {
       text-align: center;
-      color: #2a7ae2;
       margin-bottom: 30px;
     }
-    p {
-      font-size: 16px;
+    .question {
+      display: none;
     }
-    label {
+    .question.active {
       display: block;
-      margin: 6px 0;
     }
-    button {
-      background-color: #2a7ae2;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
+    .options {
       margin-top: 20px;
     }
-    button:hover {
-      background-color: #1a5ec8;
+    .options label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .navigation {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .navigation button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1e90ff;
+      color: #fff;
+      cursor: pointer;
     }
     #result {
-      margin-top: 30px;
-      font-weight: bold;
-      font-size: 18px;
+      display: none;
       text-align: center;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
+  <div id="particles-js"></div>
   <div class="container">
     <h1>Тест на зависимость от гаджетов</h1>
     <form id="quizForm">
-      <p>1. Вы проверяете телефон сразу после пробуждения?</p>
-      <label><input type="radio" name="q1" value="3"> Часто</label>
-      <label><input type="radio" name="q1" value="2"> Иногда</label>
-      <label><input type="radio" name="q1" value="1"> Никогда</label>
-
-      <p>2. Вы чувствуете тревогу, если потеряли телефон?</p>
-      <label><input type="radio" name="q2" value="3"> Да</label>
-      <label><input type="radio" name="q2" value="2"> Немного</label>
-      <label><input type="radio" name="q2" value="1"> Нет</label>
-
-      <p>3. Вы используете гаджеты более 4 часов в день вне учёбы/работы?</p>
-      <label><input type="radio" name="q3" value="3"> Да</label>
-      <label><input type="radio" name="q3" value="2"> Иногда</label>
-      <label><input type="radio" name="q3" value="1"> Нет</label>
-
-      <p>4. Вам сложно уснуть без телефона рядом?</p>
-      <label><input type="radio" name="q4" value="3"> Да</label>
-      <label><input type="radio" name="q4" value="2"> Иногда</label>
-      <label><input type="radio" name="q4" value="1"> Нет</label>
-
-      <p>5. Вы часто проверяете уведомления без причины?</p>
-      <label><input type="radio" name="q5" value="3"> Очень часто</label>
-      <label><input type="radio" name="q5" value="2"> Иногда</label>
-      <label><input type="radio" name="q5" value="1"> Редко</label>
-
-      <p>6. Вы используете гаджеты за едой?</p>
-      <label><input type="radio" name="q6" value="3"> Постоянно</label>
-      <label><input type="radio" name="q6" value="2"> Иногда</label>
-      <label><input type="radio" name="q6" value="1"> Нет</label>
-
-      <p>7. Вы чувствуете раздражение, когда нет интернета?</p>
-      <label><input type="radio" name="q7" value="3"> Да</label>
-      <label><input type="radio" name="q7" value="2"> Немного</label>
-      <label><input type="radio" name="q7" value="1"> Нет</label>
-
-      <p>8. Вы чувствуете, что гаджеты отвлекают вас от реальной жизни?</p>
-      <label><input type="radio" name="q8" value="3"> Часто</label>
-      <label><input type="radio" name="q8" value="2"> Иногда</label>
-      <label><input type="radio" name="q8" value="1"> Нет</label>
-
-      <button type="button" onclick="calculateResult()">Узнать результат</button>
+      <!-- Вопросы будут добавлены здесь с помощью JavaScript -->
     </form>
+    <div class="navigation">
+      <button type="button" id="prevBtn">Назад</button>
+      <button type="button" id="nextBtn">Далее</button>
+    </div>
     <div id="result"></div>
   </div>
 
+  <script src="particles.min.js"></script>
   <script>
-    function calculateResult() {
-      let total = 0;
-      const form = document.forms['quizForm'];
-      for (let i = 1; i <= 8; i++) {
-        const value = form['q' + i].value;
-        if (!value) {
-          alert('Пожалуйста, ответьте на все вопросы.');
-          return;
+    // Инициализация particles.js
+    particlesJS.load('particles-js', 'particles-config.json', function() {
+      console.log('particles.js загружен');
+    });
+
+    // Вопросы теста
+    const questions = [
+      "Вы проверяете телефон сразу после пробуждения?",
+      "Вы чувствуете тревогу, если потеряли телефон?",
+      "Вы используете гаджеты более 4 часов в день вне учёбы/работы?",
+      "Вам сложно уснуть без телефона рядом?",
+      "Вы часто проверяете уведомления без причины?",
+      "Вы используете гаджеты за едой?",
+      "Вы чувствуете раздражение, когда нет интернета?",
+      "Вы чувствуете, что гаджеты отвлекают вас от реальной жизни?",
+      "Вы предпочитаете общение в мессенджерах живому общению?",
+      "Вы испытываете дискомфорт без доступа к гаджетам?",
+      "Вы часто теряете счёт времени, используя гаджеты?",
+      "Вы используете гаджеты во время прогулок или отдыха?",
+      "Вы чувствуете необходимость постоянно быть онлайн?",
+      "Вы используете гаджеты во время общения с близкими?",
+      "Вы испытываете тревогу при разрядке устройства?"
+    ];
+
+    const form = document.getElementById('quizForm');
+    const resultDiv = document.getElementById('result');
+    let currentQuestion = 0;
+    let answers = Array(questions.length).fill(null);
+
+    function renderQuestion(index) {
+      form.innerHTML = '';
+      const questionDiv = document.createElement('div');
+      questionDiv.classList.add('question', 'active');
+
+      const questionText = document.createElement('p');
+      questionText.textContent = ${index + 1}. ${questions[index]};
+      questionDiv.appendChild(questionText);
+
+      const optionsDiv = document.createElement('div');
+      optionsDiv.classList.add('options');
+
+      const options = [
+        { text: 'Часто', value: 3 },
+        { text: 'Иногда', value: 2 },
+        { text: 'Никогда', value: 1 }
+      ];
+
+      options.forEach(option => {
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'answer';
+        input.value = option.value;
+        if (answers[index] == option.value) {
+          input.checked = true;
         }
-        total += parseInt(value);
-      }
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(` ${option.text}`));
+        optionsDiv.
+          appendChild(label);
+      });
 
-      let message = '';
-      if (total <= 12) {
-        message = 'У вас низкий уровень зависимости от гаджетов. Отлично!';
-      } else if (total <= 18) {
-        message = 'Умеренная зависимость. Стоит немного сократить время у экрана.';
-      } else {
-        message = 'Высокая зависимость! Подумайте о цифровом балансе.';
-      }
-
-      document.getElementById('result').innerText = message;
+      questionDiv.appendChild(optionsDiv);
+      form.appendChild(questionDiv);
     }
+
+    function showResult() {
+      form.style.display = 'none';
+      document.querySelector('.navigation').style.display = 'none';
+      resultDiv.style.display = 'block';
+
+      const total = answers.reduce((sum, val) => sum + parseInt(val), 0);
+      let message = '';
+
+      if (total <= 20) {
+        message = 'У вас низкий уровень зависимости от гаджетов. Отлично! Продолжайте в том же духе.';
+      } else if (total <= 35) {
+        message = 'Умеренная зависимость. Рекомендуется контролировать время, проводимое с гаджетами, и делать перерывы.';
+      } else {
+        message = 'Высокая зависимость! Подумайте о цифровом детоксе, установите лимиты на использование устройств и уделяйте больше времени офлайн-активностям.';
+      }
+
+      resultDiv.textContent = message;
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if (!selected) {
+        alert('Пожалуйста, выберите ответ.');
+        return;
+      }
+      answers[currentQuestion] = selected.value;
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        renderQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion(currentQuestion);
+      }
+    });
+
+    // Инициализация первого вопроса
+    renderQuestion(currentQuestion);
   </script>
 </body>
 </html>
