@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Gadget Test</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #15002b, #0d0020);
+            color: #fff;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            backdrop-filter: blur(20px);
+            animation: fadeIn 1.2s ease;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .question {
+            margin: 20px 0;
+            animation: slideIn 1s ease;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            background-color: #6a0dad;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .options button:hover {
+            background-color: #8f32ff;
+        }
+        #result {
+            display: none;
+            animation: fadeIn 1.2s ease;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        @keyframes slideIn {
+            from {transform: translateY(50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="intro">
+        <h1>Приветствуем в Gadget Test</h1>
+        <p style="text-align: center;">Пройдите тест, чтобы узнать свой уровень зависимости от гаджетов.</p>
+        <div style="text-align:center;">
+            <button onclick="startTest()">Начать тест</button>
+        </div>
+    </div>
+
+    <div class="container" id="quiz" style="display:none;">
+        <h2 id="questionText"></h2>
+        <div class="options" id="answerButtons"></div>
+    </div>
+
+    <div class="container" id="result">
+        <h2>Ваш результат:</h2>
+        <p id="resultText"></p>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Как часто вы проверяете телефон?", answers: ["Каждые 5 минут", "Раз в час", "Только когда звонят"], score: [3, 2, 0] },
+            { question: "Вы спите рядом с телефоном?", answers: ["Да", "Нет"], score: [3, 0] },
+            { question: "Можете ли вы прожить день без гаджета?", answers: ["Нет", "Сложно, но могу", "Легко"], score: [3, 2, 0] },
+            { question: "Сколько часов в день вы проводите в интернете?", answers: ["Более 8", "4-8", "Менее 4"], score: [3, 2, 0] },
+            { question: "Вы отвлекаетесь на уведомления во время общения с людьми?", answers: ["Часто", "Иногда", "Редко/никогда"], score: [3, 2, 0] }
+        ];
+        let currentQuestion = 0;
+        let totalScore = 0;
+
+        function startTest() {
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('questionText').textContent = q.question;
+            const buttons = document.getElementById('answerButtons');
+            buttons.innerHTML = '';
+            q.answers.forEach((answer, index) => {
+                const btn = document.createElement('button');
+                btn.textContent = answer;
+                btn.onclick = () => selectAnswer(index);
+                buttons.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(index) {
+            totalScore += questions[currentQuestion].score[index];
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+            let message = "";
+            if (totalScore <= 4) message = "У вас низкий уровень зависимости. Продолжайте в том же духе!";
+            else if (totalScore <= 9) message = "Умеренный уровень зависимости. Подумайте о цифровом детоксе.";
+            else message = "Высокий уровень зависимости. Стоит пересмотреть привычки.";
+
+            document.getElementById('resultText').textContent = message;
+        }
+    </script>
+</body>
+</html>
