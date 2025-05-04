@@ -5,67 +5,125 @@
   <title>Тест на зависимость от гаджетов</title>
   <style>
     body {
-      background-color: #f5f5f5;      /* Цвет фона страницы */
-      color: #333333;                 /* Цвет текста */
-      font-family: "Segoe UI", sans-serif; /* Шрифт текста */
-      padding: 20px;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      color: #333;
+      padding: 40px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      padding: 30px 40px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
     h1 {
-      color: #0066cc;                 /* Цвет заголовка */
       text-align: center;
+      color: #2a7ae2;
+      margin-bottom: 30px;
+    }
+    p {
+      font-size: 16px;
+    }
+    label {
+      display: block;
+      margin: 6px 0;
     }
     button {
-      background-color: #0066cc;      /* Цвет кнопки */
+      background-color: #2a7ae2;
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 24px;
       font-size: 16px;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
+      margin-top: 20px;
     }
     button:hover {
-      background-color: #004999;     /* Цвет при наведении */
+      background-color: #1a5ec8;
+    }
+    #result {
+      margin-top: 30px;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h1>Тест на зависимость от гаджетов</h1>
-  <form id="quizForm">
-    <p>1. Вы проверяете телефон сразу после пробуждения?<br>
-      <input type="radio" name="q1" value="3"> Часто<br>
-      <input type="radio" name="q1" value="2"> Иногда<br>
-      <input type="radio" name="q1" value="1"> Никогда<br>
-    </p>
-    <p>2. Вы чувствуете тревогу, если потеряли телефон?<br>
-      <input type="radio" name="q2" value="3"> Да<br>
-      <input type="radio" name="q2" value="2"> Немного<br>
-      <input type="radio" name="q2" value="1"> Нет<br>
-    </p>
-    <p>3. Вы пользуетесь гаджетом более 4 часов в день вне учёбы/работы?<br>
-      <input type="radio" name="q3" value="3"> Да<br>
-      <input type="radio" name="q3" value="2"> Иногда<br>
-      <input type="radio" name="q3" value="1"> Нет<br>
-    </p>
-    <button type="button" onclick="calculateResult()">Узнать результат</button>
-  </form>
-  <div id="result" style="margin-top: 20px; font-weight: bold;"></div>
+  <div class="container">
+    <h1>Тест на зависимость от гаджетов</h1>
+    <form id="quizForm">
+      <p>1. Вы проверяете телефон сразу после пробуждения?</p>
+      <label><input type="radio" name="q1" value="3"> Часто</label>
+      <label><input type="radio" name="q1" value="2"> Иногда</label>
+      <label><input type="radio" name="q1" value="1"> Никогда</label>
+
+      <p>2. Вы чувствуете тревогу, если потеряли телефон?</p>
+      <label><input type="radio" name="q2" value="3"> Да</label>
+      <label><input type="radio" name="q2" value="2"> Немного</label>
+      <label><input type="radio" name="q2" value="1"> Нет</label>
+
+      <p>3. Вы используете гаджеты более 4 часов в день вне учёбы/работы?</p>
+      <label><input type="radio" name="q3" value="3"> Да</label>
+      <label><input type="radio" name="q3" value="2"> Иногда</label>
+      <label><input type="radio" name="q3" value="1"> Нет</label>
+
+      <p>4. Вам сложно уснуть без телефона рядом?</p>
+      <label><input type="radio" name="q4" value="3"> Да</label>
+      <label><input type="radio" name="q4" value="2"> Иногда</label>
+      <label><input type="radio" name="q4" value="1"> Нет</label>
+
+      <p>5. Вы часто проверяете уведомления без причины?</p>
+      <label><input type="radio" name="q5" value="3"> Очень часто</label>
+      <label><input type="radio" name="q5" value="2"> Иногда</label>
+      <label><input type="radio" name="q5" value="1"> Редко</label>
+
+      <p>6. Вы используете гаджеты за едой?</p>
+      <label><input type="radio" name="q6" value="3"> Постоянно</label>
+      <label><input type="radio" name="q6" value="2"> Иногда</label>
+      <label><input type="radio" name="q6" value="1"> Нет</label>
+
+      <p>7. Вы чувствуете раздражение, когда нет интернета?</p>
+      <label><input type="radio" name="q7" value="3"> Да</label>
+      <label><input type="radio" name="q7" value="2"> Немного</label>
+      <label><input type="radio" name="q7" value="1"> Нет</label>
+
+      <p>8. Вы чувствуете, что гаджеты отвлекают вас от реальной жизни?</p>
+      <label><input type="radio" name="q8" value="3"> Часто</label>
+      <label><input type="radio" name="q8" value="2"> Иногда</label>
+      <label><input type="radio" name="q8" value="1"> Нет</label>
+
+      <button type="button" onclick="calculateResult()">Узнать результат</button>
+    </form>
+    <div id="result"></div>
+  </div>
 
   <script>
     function calculateResult() {
       let total = 0;
       const form = document.forms['quizForm'];
-      for (let i = 1; i <= 3; i++) {
-        const answer = form['q' + i].value;
-        if (!answer) {
+      for (let i = 1; i <= 8; i++) {
+        const value = form['q' + i].value;
+        if (!value) {
           alert('Пожалуйста, ответьте на все вопросы.');
           return;
         }
-        total += parseInt(answer);
+        total += parseInt(value);
       }
-      const resultText = document.getElementById('result');
-      if (total <= 5) resultText.innerText = 'У вас низкий уровень зависимости.';
-      else if (total <= 7) resultText.innerText = 'У вас умеренная зависимость от гаджетов.';
-      else resultText.innerText = 'Высокая зависимость! Рекомендуется пересмотреть время использования устройств.';
+
+      let message = '';
+      if (total <= 12) {
+        message = 'У вас низкий уровень зависимости от гаджетов. Отлично!';
+      } else if (total <= 18) {
+        message = 'Умеренная зависимость. Стоит немного сократить время у экрана.';
+      } else {
+        message = 'Высокая зависимость! Подумайте о цифровом балансе.';
+      }
+
+      document.getElementById('result').innerText = message;
     }
   </script>
 </body>
