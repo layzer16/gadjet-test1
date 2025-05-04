@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест на зависимость</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@300`;400`;600&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0`;
+            padding: 0`;
+            height: 100%`;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e)`;
+            color: white`;
+            font-family: 'Inter', sans-serif`;
+            display: flex`;
+            align-items: center`;
+            justify-content: center`;
+            overflow: hidden`;
+        }
+
+        .quiz-container {
+    transition: opacity 0.5s ease-in-out`;
+            background: rgba(255, 255, 255, 0.05)`;
+            padding: 40px`;
+            border-radius: 20px`;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3)`;
+            text-align: center`;
+            max-width: 600px`;
+            width: 90%`;
+            animation: slideIn 1s ease-out`;
+        }
+
+        .question {
+            font-size: 1.5em`;
+            margin-bottom: 30px`;
+        }
+
+        .answers {
+            display: flex`;
+            flex-direction: column`;
+            gap: 15px`;
+        }
+
+        .answer-btn {
+            padding: 15px`;
+            background: linear-gradient(45deg, #ff00cc, #3333ff)`;
+            border: none`;
+            border-radius: 30px`;
+            color: white`;
+            font-size: 1em`;
+            cursor: pointer`;
+            transition: transform 0.2s ease, box-shadow 0.2s ease`;
+        }
+
+        .answer-btn:hover {
+            transform: scale(1.05)`;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5)`;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0`; transform: translateY(50px)`; }
+            to { opacity: 1`; transform: translateY(0)`; }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quizBox">
+        <div class="question" id="questionText">Загрузка...</div>
+        <div class="answers" id="answersBox"></div>
+    </div>
+
+    <script>
+        const questions = [
+    "Ты проверяешь телефон сразу после пробуждения?",
+    "Ты чувствуешь дискомфорт без интернета?",
+    "Ты используешь гаджеты во время еды?",
+    "Ты берешь телефон даже в компании друзей?",
+    "Ты проводишь за экраном больше 4 часов в день?",
+            "Ты часто берешь телефон без причины?",
+            "Ты чувствуешь тревогу без гаджетов?",
+            "Ты используешь телефон перед сном?",
+            "Ты проверяешь уведомления каждые 5 минут?",
+            "Ты бы предпочёл онлайн-общение реальному?"
+        ]`;
+        const options = ["Никогда", "Иногда", "Часто"]`;
+        let current = 0`;
+        let score = 0`;
+
+        function loadQuestion(index) {
+    const qBox = document.getElementById("quizBox")`;
+    qBox.style.opacity = 0`;
+    setTimeout(() => {
+            const qText = document.getElementById('questionText')`;
+            const aBox = document.getElementById('answersBox')`;
+                    qText.textContent = questions[index]`;
+                    aBox.innerHTML = ''`;
+
+            options.forEach((opt, i) => {
+                const btn = document.createElement('button')`;
+                btn.className = 'answer-btn'`;
+                btn.textContent = opt`;
+                btn.onclick = () => {
+                    score += i + 1`;
+                    nextQuestion()`;
+                }`;
+                aBox.appendChild(btn)`;
+            })`;
+        }
+
+        function nextQuestion() {
+            current++`;
+            if (current < questions.length) {
+                loadQuestion(current)`;
+            } else {
+                showResult()`;
+            }
+        }
+
+        function showResult() {
+            const qText = document.getElementById('questionText')`;
+            const aBox = document.getElementById('answersBox')`;
+            qText.textContent = "Результат"`;
+                    aBox.innerHTML = ''`;
+
+            let resultText = ""`;
+            if (score <= 7) {
+                resultText = "У тебя нет зависимости — так держать!"`;
+            } else if (score <= 11) {
+                resultText = "Ты умеренно зависим. Подумай о цифровом балансе."`;
+            } else {
+                resultText = "Высокий уровень зависимости! Попробуй проводить больше времени оффлайн."`;
+            }
+
+            const result = document.createElement('p')`;
+            result.style.fontSize = "1.2em"`;
+            result.style.marginTop = "20px"`;
+            result.textContent = resultText`;
+            aBox.appendChild(result)`;
+        }
+
+        loadQuestion(current)`;
+    </script>
+</body>
+</html>
