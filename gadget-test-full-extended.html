@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тест на зависимость от гаджетов</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(ellipse at center, #1f1f1f 0%, #0f0f0f 100%);
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 800px;
+      margin: 100px auto;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+      animation: fadeIn 1.5s ease;
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      font-size: 2rem;
+      color: #ff00cc;
+    }
+    .question {
+      margin-top: 30px;
+    }
+    .options label {
+      display: block;
+      margin: 10px 0;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 10px;
+      transition: background 0.3s;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .options label:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    button {
+      background: #ff00cc;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #ff33cc;
+    }
+    #result {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Тест на зависимость от гаджетов</h1>
+    <div id="quiz"></div>
+    <div class="buttons">
+      <button onclick="prevQuestion()">Назад</button>
+      <button onclick="nextQuestion()">Далее</button>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      'Ты проверяешь уведомления сразу, как только они приходят?',
+      'Часто ли ты теряешь ощущение времени, когда пользуешься телефоном?',
+      'Ты берешь телефон с собой даже в ванную?',
+      'Ты чувствуешь тревогу, если телефон разряжается или теряется связь?',
+      'Ты просматриваешь соцсети, когда скучаешь, даже если недавно проверял их?',
+      'Ты отвлекаешься на гаджеты во время учебы или работы?',
+      'Ты засыпаешь с телефоном в руке или рядом с собой?',
+      'Ты чувствуешь раздражение, если кто-то отвлекает тебя от использования гаджета?',
+      'Ты часто используешь гаджеты во время еды?',
+      'Ты чувствуешь потребность быть онлайн всё время?'
+    ];
+    const form = document.getElementById('quiz');
+    const resultDiv = document.getElementById('result');
+    let currentQuestion = 0;
+    let answers = Array(questions.length).fill(null);
+
+    function renderQuestion(index) {
+      form.innerHTML = '';
+      const q = document.createElement('div');
+      q.classList.add('question');
+      q.innerHTML = '<h3>' + (index + 1) + '. ' + questions[index] + '</h3>';
+
+      const options = [
+        { text: 'Да, часто', value: 3 },
+        { text: 'Иногда', value: 2 },
+        { text: 'Редко или никогда', value: 1 }
+      ];
+
+      const opts = document.createElement('div');
+      opts.classList.add('options');
+
+      options.forEach(option => {
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'answer';
+        input.value = option.value;
+        if (answers[index] == option.value) input.checked = true;
+        input.onchange = () => answers[index] = Number(input.value);
+        label.appendChild(input);
+        label.append(option.text);
+        opts.appendChild(label);
+      });
+
+      q.appendChild(opts);
+      form.appendChild(q);
+    }
+
+    function nextQuestion() {
+      if (answers[currentQuestion] == null) {
+        alert('Пожалуйста, выбери ответ.');
+        return;
+      }
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion(currentQuestion);
+      }
+    }
+
+    function showResult() {
+      const score = answers.reduce((a, b) => a + b, 0);
+      let message = '';
+
+      if (score <= 15) {
+        message = 'Ты отлично контролируешь своё время и редко поддаешься соблазну гаджетов. Продолжай в том же духе!';
+      } else if (score <= 23) {
+        message = 'Ты умеренно зависим от гаджетов. Возможно, стоит сократить время за экраном и чаще отдыхать без технологий.';
+      } else {
+        message = 'Ты, похоже, сильно зависим от гаджетов. Постарайся устраивать цифровые детоксы, выделяй больше времени на общение вживую и отдых от экрана.';
+      }
+
+      form.innerHTML = '';
+      document.querySelector('.buttons').style.display = 'none';
+      resultDiv.innerHTML = `<h2>Результат</h2><p>${message}</p>`;
+    }
+
+    renderQuestion(currentQuestion);
+  </script>
+</body>
+</html>
