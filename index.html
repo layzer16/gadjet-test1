@@ -1,4 +1,4 @@
-
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,6 +7,7 @@
   <title>Тест на зависимость от гаджетов</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* Твои стили без изменений */
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -66,12 +67,6 @@
     button:hover {
       background: #ff33cc;
     }
-    #result {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 1.2rem;
-      line-height: 1.6;
-    }
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(20px);}
       to {opacity: 1; transform: translateY(0);}
@@ -86,7 +81,6 @@
       <button onclick="prevQuestion()">Назад</button>
       <button onclick="nextQuestion()">Далее</button>
     </div>
-    <div id="result"></div>
   </div>
 
   <script>
@@ -103,7 +97,6 @@
       'Ты чувствуешь потребность быть онлайн всё время?'
     ];
     const form = document.getElementById('quiz');
-    const resultDiv = document.getElementById('result');
     let currentQuestion = 0;
     let answers = Array(questions.length).fill(null);
 
@@ -138,7 +131,6 @@
       q.appendChild(opts);
       form.appendChild(q);
     }
-
     function nextQuestion() {
       if (answers[currentQuestion] == null) {
         alert('Пожалуйста, выбери ответ.');
@@ -148,7 +140,7 @@
         currentQuestion++;
         renderQuestion(currentQuestion);
       } else {
-        showResult();
+        showFinishButton();
       }
     }
 
@@ -159,21 +151,20 @@
       }
     }
 
-    function showResult() {
+    function showFinishButton() {
+      const container = document.querySelector('.container');
+      container.innerHTML = `
+        <h1>Готово!</h1>
+        <p style="text-align:center;">Нажми кнопку ниже, чтобы узнать результат.</p>
+        <div style="text-align:center;">
+          <button onclick="redirectToResult()">Узнать результат</button>
+        </div>
+      `;
+    }
+
+    function redirectToResult() {
       const score = answers.reduce((a, b) => a + b, 0);
-      let message = '';
-
-      if (score <= 15) {
-        message = 'Ты отлично контролируешь своё время и редко поддаешься соблазну гаджетов. Продолжай в том же духе!';
-      } else if (score <= 23) {
-        message = 'Ты умеренно зависим от гаджетов. Возможно, стоит сократить время за экраном и чаще отдыхать без технологий.';
-      } else {
-        message = 'Ты, похоже, сильно зависим от гаджетов. Постарайся устраивать цифровые детоксы, выделяй больше времени на общение вживую и отдых от экрана.';
-      }
-
-      form.innerHTML = '';
-      document.querySelector('.buttons').style.display = 'none';
-      resultDiv.innerHTML = `<h2>Результат</h2><p>${message}</p>`;
+      window.location.href = 'result.html?score=' + score;
     }
 
     renderQuestion(currentQuestion);
